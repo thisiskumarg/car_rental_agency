@@ -61,6 +61,7 @@
             if(vehicleNumber == "") {
             
                 $("#vehicle_numbererr").show();
+                $("#vehicle_numbererr2").hide();
             } else {
 
                 $("#vehicle_numbererr").hide();
@@ -88,6 +89,7 @@
             if(seatCapacity == "") {
             
                 $("#seat_capacityerr").show();
+                $("#seat_capacityerr2").hide();
             } else {
 
                 $("#seat_capacityerr").hide();
