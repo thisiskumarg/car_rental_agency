@@ -20,6 +20,7 @@
                 <div class="col-sm-8">
                     <input type="text" name="vehicle_number" id="vehicle_number" class="form-control" value="<?= $car_details[0]['vehicle_number']; ?>">
                     <span id="vehicle_numbererr" class="text-danger" style="display: none;">Please Enter Vehicle Number!</span>
+                    <span id="vehicle_numbererr2" class="text-danger" style="display: none;">Vehicle Number should be in AA11AA1234 or AA11A1234 format!</span>
                 </div>
             </div>
             <div class="row mt-3">
@@ -27,6 +28,7 @@
                 <div class="col-sm-8">
                     <input type="text" name="seat_capacity" id="seat_capacity" class="form-control" value="<?= $car_details[0]['seating_capacity']; ?>">
                     <span id="seat_capacityerr" class="text-danger" style="display: none;">Please Enter Seating Capacity!</span>
+                    <span id="seat_capacityerr2" class="text-danger" style="display: none;">Seating Capacity should be between 2 to 11!</span>
                 </div>
             </div>
             <div class="row mt-3">
@@ -47,6 +49,66 @@
 
 <script>
 
+    $(document).ready(function() {
+
+        $("#update_car_details").prop('disabled', true);
+
+        var right_number = 0;
+        var right_seating = 0;
+        $("#vehicle_number").blur(function() {
+
+            let vehicleNumber = $("#vehicle_number").val();
+            if(vehicleNumber == "") {
+            
+                $("#vehicle_numbererr").show();
+            } else {
+
+                $("#vehicle_numbererr").hide();
+                let re = /^[A-Z]{2}[0-9]{1,2}(?:[A-Z])?(?:[A-Z]*)?[0-9]{4}$/;
+                if(re.test(vehicleNumber)) {
+
+                    $("#vehicle_numbererr2").hide();
+                    right_number = 1;
+                    if(right_number == 1 && right_seating == 1) {
+
+                        $("#update_car_details").prop('disabled', false);
+                    }
+                } else {
+
+                    $("#vehicle_numbererr2").show();
+                    right_number = 0;
+                    $("#update_car_details").prop('disabled', true);
+                }
+            }
+        });
+
+        $("#seat_capacity").blur(function() {
+
+            let seatCapacity = $("#seat_capacity").val();
+            if(seatCapacity == "") {
+            
+                $("#seat_capacityerr").show();
+            } else {
+
+                $("#seat_capacityerr").hide();
+                if(seatCapacity >= 2 && seatCapacity <= 11) {
+
+                    $("#seat_capacityerr2").hide();
+                    right_seating = 1;
+                    if(right_number == 1 && right_seating == 1) {
+
+                        $("#update_car_details").prop('disabled', false);
+                    }
+                } else {
+
+                    $("#seat_capacityerr2").show();
+                    right_seating = 0;
+                    $("#update_car_details").prop('disabled', true);
+                }
+            }
+        });
+    });
+
     $("#update_car_details").click(function() {
 
         var vehicle_model = $("#vehicle_model").val();
@@ -65,21 +127,13 @@
         }
 
         if(vehicle_number == "") {
-            
-            $("#vehicle_numbererr").show();
-            err += 1;
-        } else {
 
-            $("#vehicle_numbererr").hide();
+            err += 1;
         }
 
         if(seat_capacity == "") {
-            
-            $("#seat_capacityerr").show();
-            err += 1;
-        } else {
 
-            $("#seat_capacityerr").hide();
+            err += 1;
         }
 
         if(day_rent == "") {
